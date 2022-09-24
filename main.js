@@ -1,37 +1,41 @@
 const cube = document.querySelector('#cube')
+const reset = document.querySelector('#reset')
 let cubePosition = cube.getBoundingClientRect().left;
 let cubeRotate = 0;
+reset.addEventListener('click', () => {
+    window.location.reload()
+})
 cube.addEventListener('click', (event) => {
     let target = event.target.closest('.cube');
     let cubeStartPosition = cube.getBoundingClientRect().right;
     let innerWidth = window.innerWidth - 5;
-    let step = stepCube(document.querySelector('#cube_time').value, cubeStartPosition, innerWidth)
-    let turnOver = document.querySelector('#cube_rotate').value
-    let timeOff = ((Number(document.querySelector('#cube_time').value) + 3 )* 1000)
+    let cubeTime = document.querySelector('#cube_time');
+    let step = stepCube(cubeTime.value, cubeStartPosition, innerWidth);
+    let turnOver = document.querySelector('#cube_rotate');
+    let turnOverValue = turnOver.value;
 
     if (!target || target.classList.contains('active')) return
 
-    target.classList.add('active')
-    target.innerHTML = "<span>Disabled!!</span>"
 
-    cube.style.position = "absolute"
+    target.classList.add('active');
+
+    target.innerHTML = "<span>Disabled!!</span>";
+
+    cube.style.position = "absolute";
 
     let interval = setInterval(() => {
         if (cube.getBoundingClientRect().right < innerWidth) {
-            runCube(step, cube)
-            startRotate(turnOver, step, innerWidth, cubeStartPosition)
-        } else {
-            setTimeout(() => {
-                clearInterval(interval)
-                target.style.background = 'red'
-            }, 0)
+            runCube(step, cube);
+            startRotate(turnOverValue, step, innerWidth, cubeStartPosition);
         }
-
+        else setTimeout(() => {
+            clearInterval(interval)
+            target.style.background = 'red'
+        }, 0);
     }, 0)
-    setTimeout((timeOff)=>{
-        window.location.reload()
+    cubeTime.value = "";
+    turnOver.value = "";
 
-    },timeOff)
 })
 
 function stepCube(time, startPosition, innerWidth) {

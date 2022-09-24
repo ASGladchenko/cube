@@ -39,7 +39,7 @@ cube.addEventListener('click', (event) => {
 })
 
 function stepCube(time, startPosition, innerWidth) {
-    if (Number(time) <= 0) time = 2
+    if (Number(time) <= 0) time = 3
     return (innerWidth - startPosition) / (Number(time) * 250)
 }
 
